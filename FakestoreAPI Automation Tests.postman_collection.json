@@ -1,0 +1,233 @@
+{
+	"info": {
+		"_postman_id": "1aafa6a8-6b83-437c-9b55-f58d0e081e83",
+		"name": "FakestoreAPI Automation Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "49559041",
+		"_collection_link": "https://baotranglehuyen25-8712716.postman.co/workspace/Bao-Trang-Le-Huyen's-Workspace~52828b3e-9d0c-4b6f-80c0-c5b2ccb16fc4/collection/49559041-1aafa6a8-6b83-437c-9b55-f58d0e081e83?action=share&source=collection_link&creator=49559041"
+	},
+	"item": [
+		{
+			"name": "GET All Products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"pm.test(\"Response body contains title\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[0]).to.have.property('title');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://fakestoreapi.com/products"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Single Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Product ID is 1\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://fakestoreapi.com/products/1"
+			},
+			"response": []
+		},
+		{
+			"name": "POST Create Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"newProductId\", jsonData.id);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Test Product\",\n  \"price\": 15.99,\n  \"description\": \"Automation test\",\n  \"image\": \"https://i.pravatar.cc\",\n  \"category\": \"electronics\"\n}"
+				},
+				"url": "https://fakestoreapi.com/products"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Update Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"var jsonData = pm.response.json();",
+							"pm.expect(jsonData.title).to.include('Updated');"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Updated Test Product\",\n  \"price\": 19.99,\n  \"description\": \"Updated description\"\n}"
+				},
+				"url": "https://fakestoreapi.com/products/1"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "https://fakestoreapi.com/products/1"
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Carts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://fakestoreapi.com/carts"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Response is array\", function () {",
+							"    pm.expect(Array.isArray(jsonData)).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://fakestoreapi.com/users"
+			},
+			"response": []
+		},
+		{
+			"name": "GET User by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"User ID is 1\", function () {",
+							"    pm.expect(jsonData.id).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://fakestoreapi.com/users/1"
+			},
+			"response": []
+		}
+	]
+}
