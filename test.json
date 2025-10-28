@@ -1,0 +1,187 @@
+{
+  "info": {
+    "_postman_id": "9dcd4b27-f482-4e40-9b1f-d504fb7d64b1",
+    "name": "FakestoreAPI Automation v2 (EscuelaJS)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET All Products",
+      "request": {
+        "method": "GET",
+        "url": "https://api.escuelajs.co/api/v1/products"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Response time < 1500ms', function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(1500);",
+              "});",
+              "const jsonData = pm.response.json();",
+              "pm.test('First item has title', function () {",
+              "    pm.expect(jsonData[0]).to.have.property('title');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET Single Product",
+      "request": {
+        "method": "GET",
+        "url": "https://api.escuelajs.co/api/v1/products/10"
+    },
+    "event": [
+        {
+        "listen": "test",
+        "script": {
+            "exec": [
+            "pm.test('Status code is 200', function () {",
+            "    pm.response.to.have.status(200);",
+            "});",
+            "const jsonData = pm.response.json();",
+            "pm.test('Product has id = 10', function () {",
+            "    pm.expect(jsonData.id).to.eql(10);",
+            "});"
+            ]
+        }
+        }
+    ]
+    },
+
+    {
+      "name": "POST Create Product",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"New Test Product\",\n  \"price\": 20,\n  \"description\": \"Automated test\",\n  \"categoryId\": 1,\n  \"images\": [\"https://placeimg.com/640/480/any\"]\n}"
+        },
+        "url": "https://api.escuelajs.co/api/v1/products/"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 201', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "const jsonData = pm.response.json();",
+              "pm.expect(jsonData).to.have.property('id');",
+              "pm.environment.set('newProductId', jsonData.id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "PUT Update Product",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+        "mode": "raw",
+        "raw": "{\n  \"title\": \"Updated Product\",\n  \"price\": 30,\n  \"description\": \"Updated description\",\n  \"categoryId\": 1,\n  \"images\": [\"https://placeimg.com/640/480/any\"]\n}"
+        },
+        "url": {
+        "raw": "https://api.escuelajs.co/api/v1/products/{{newProductId}}",
+        "host": ["api", "escuelajs", "co"],
+        "path": ["api", "v1", "products", "{{newProductId}}"]
+        }
+    },
+    "event": [
+        {
+        "listen": "test",
+        "script": {
+            "exec": [
+            "pm.test('Status code is 200', function () {",
+            "    pm.response.to.have.status(200);",
+            "});",
+            "const jsonData = pm.response.json();",
+            "pm.test('Title updated successfully', function () {",
+            "    pm.expect(jsonData.title).to.include('Updated');",
+            "});"
+            ]
+        }
+        }
+    ]
+    },
+    {
+      "name": "DELETE Product",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "https://api.escuelajs.co/api/v1/products/{{newProductId}}",
+          "host": ["api", "escuelajs", "co"],
+          "path": ["api", "v1", "products", "{{newProductId}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET All Users",
+      "request": {
+        "method": "GET",
+        "url": "https://api.escuelajs.co/api/v1/users"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "const jsonData = pm.response.json();",
+              "pm.test('Response is an array', function () {",
+              "    pm.expect(Array.isArray(jsonData)).to.be.true;",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET User by ID",
+      "request": {
+        "method": "GET",
+        "url": "https://api.escuelajs.co/api/v1/users/1"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "const jsonData = pm.response.json();",
+              "pm.test('User has id = 1', function () {",
+              "    pm.expect(jsonData.id).to.eql(1);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
