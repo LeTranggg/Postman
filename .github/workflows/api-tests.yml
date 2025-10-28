@@ -10,4 +10,4 @@ jobs:
       - name: Install Newman
         run: npm install -g newman
       - name: Run API tests
-        run: newman run FakestoreAPI_Automation.json --reporters cli,junit
+        run: newman run FakestoreAPI Automation Tests.postman_collection.json --reporters cli,junit
